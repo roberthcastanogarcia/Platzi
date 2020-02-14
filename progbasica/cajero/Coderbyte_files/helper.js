@@ -1,0 +1,8 @@
+function debounce(func,wait,immediate){var timeout;return function(){var context=this,args=arguments;var later=function(){timeout=null;if(!immediate)func.apply(context,args)};var callNow=immediate&&!timeout;clearTimeout(timeout);timeout=setTimeout(later,wait);if(callNow)func.apply(context,args)}}
+function throttle(fn,threshhold,scope){threshhold||(threshhold=250);var last,deferTimer;return function(){var context=scope||this;var now=+new Date,args=arguments;if(last&&now<last+threshhold){clearTimeout(deferTimer);deferTimer=setTimeout(function(){last=now;fn.apply(context,args)},threshhold)}else{last=now;fn.apply(context,args)}}}
+function shuffleArray(array){var array=array.slice(0);for(var i=array.length-1;i>0;i--){var j=Math.floor(Math.random()*array.length);var temp=array[i];array[i]=array[j];array[j]=temp}
+return array}
+function highlightCodeSnippetsOnPage(classes,onArticle){if(!hljs){console.log('ERROR highlighting code snippets on page',hljs);return}
+if(onArticle){$.each($('code'),function(index,el){$(el).replaceWith('<pre>'+$(el).html()+'</pre>')});$.each($('pre'),function(index,el){$(el).addClass('ques_code_style_margins');$(el).html('<code>'+$(el).html()+'</code>')});hljs.initHighlightingOnLoad()}
+if(classes){for(var i=0;i<classes.length;i++){var thisClass=classes[i];$.each($(thisClass),function(index,el){var content=$(el).html();if(content.indexOf('```')!==-1){content=content.replace('```\n','```');content=content.replace('```','<pre class="pre_code"><code>');content=content.replace('```','</pre></code>');content=content.trim();content=content.replace('\n','');$(el).html(content);var codeBlock=$(el).find('pre code')[0];hljs.highlightBlock(codeBlock)}})}}
+console.log('all code snippets highlighted')}
